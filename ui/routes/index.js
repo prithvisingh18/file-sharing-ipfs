@@ -6,14 +6,14 @@ const uuidv4 = require('uuid/v4');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.sendFile('/home/prithvi/majorProj/ui/views/login_page.html');
+  res.sendFile(`login_page.html`, {root : `${__dirname + '/../views/'}`});
 });
 
 router.get('/ipfs', async function (req, res, next) {
   let result = await dbInt.checkSessionId(req.query.sessionId);
   if (result === true) {
     await dbInt.deleteSessionId(req.query.sessionId);
-    res.sendFile('/home/prithvi/majorProj/ui/views/ipfs_test.html');
+    res.sendFile(`ipfs_test.html`, {root : `${__dirname + '/../views/'}`});
   } else {
     res.send({ err: "Session Id not found !" });
   }
@@ -29,9 +29,9 @@ router.post('/ipfs/files/add', async function (req, res, next) {
   try {
     await dbInt.addFile(req.body.userId, {info: req.body.fileName, hash: req.body.fileHash});
   } catch(err) {
+    console.log(err);
     res.send({err: 'ERROR_ADDING_FILES'});
   }
-  res.send({});
 });
 
 

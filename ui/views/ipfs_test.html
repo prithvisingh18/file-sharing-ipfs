@@ -33,6 +33,13 @@ Node Id: <span id="node_id"></span><br>
     <div id="userFiles">
 
     </div>
+    <div>
+        <h3>Share Files</h3>
+        File Name : <input type="text" id="fileName"><br>
+        User Id : <input type="text" id="uid"><br>
+        File Hash : <input type="text" id="fileHash"><br>
+        <input type="button" value="Share" id="share">
+    </div>
     <h3>Connect:</h3>
     <input type="text" id="addr">
     <input type="button" value="Connect" id="conn">
@@ -59,10 +66,10 @@ Node Id: <span id="node_id"></span><br>
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://unpkg.com/ipfs/dist/index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.js"></script>
-<script src="index.js"></script>
-<script src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
+<script src="jquery.min.js"></script>
+<script src="/ipfs_browser/index.min.js"></script>
+<script src="/ipfs_browser/index_dis.min.js"></script>
+<script src="index_build.js"></script>
+<script src="fileSaver.min.js"></script>
 
 </html>

@@ -93,3 +93,9 @@ exports.addFile = function (userId, file) {
         });
     });
 }
+
+// exports.shareFile = function (userId, fileName, fileId) {
+//     return new Promise((resolve, reject) => {
+//         let sql = `insert into`
+//     });
+// }

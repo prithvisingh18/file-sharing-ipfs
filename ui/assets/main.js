@@ -43,7 +43,7 @@ function fileUpload() {
                 console.log(res);
                 $.post('ipfs/files/add', { userId: userId, fileName: `test_${userId}`, fileHash: res[0].hash },
                     function (data, status) {
-                        console.log('File Upload',data, status);
+                        console.log('File Upload', data, status);
                         //TODO: Check status and delete file from IPFS network if not updated on DB
                     });
             })
@@ -121,15 +121,28 @@ function refreshFiles() {
         console.log(data);
         $('#userFiles').empty();
         for (var i = 0; i < data.length; i++) {
-            $('#userFiles').append(`File Name: ${data[i].fileInfo}, File Hash : ${data[i].fileId}`);
+            $('#userFiles').append(`File Name: ${data[i].fileInfo}, File Hash : ${data[i].fileId}<br>`);
         }
     });
 }
 
 refreshFiles();
 
+function shareFiles() {
+    $.post('/ipfs/files/add', {
+        userId: $('#uid').val(),
+        fileName: $('#fileName').val(),
+        fileHash: $('#fileHash').val()
+    }, function (data, status) {
+        if (data.err) { console.log('Err Sharing files'); }
+        else {
+            console.log('File Shared');
+        }
+    });
+}
 
 
+$('#share').click(shareFiles);
 $('#peer_list').click(refreshPeers);
 $('#upload_file').click(fileUpload);
 $('#download_file').click(fileDownload);

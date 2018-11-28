@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "browserify assets/main.js -o assets/index.js && node ./bin/www"
+    "start": "browserify assets/main.js -o assets/index_build.js && node ./bin/www"
   },
   "dependencies": {
     "buffer": "^5.2.1",
