@@ -1,4 +1,7 @@
 <html>
+<title>Share Files Usin IPFS</title>
+<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+<script src="materialize/js/materialize.min.js"></script>
 <style>
     body {
         background: rgb(243, 244, 245);
@@ -24,51 +27,161 @@
         margin-left: auto;
         margin-right: auto;
     }
+    .init {
+        animation-delay: 2s;
+        display: block;
+        margin-top: 20%;
+        margin-left: 35%;
+        margin-right: auto;
+        width: 50%;
+    }
+    
 </style>
-<h2 id='output'>Initializing Ipfs</h2>
-Node Id: <span id="node_id"></span><br>
-<div style="visibility: hidden;" id="upload">
-    <h3>Files</h3>
-    <input type="button" value="Refresh" id="refreshFiles">
-    <div id="userFiles">
+<div class="init" id="head">
+    <h2 id='output'>Initializing Ipfs</h2>
+    Node Id: <span id="node_id"></span><br>
+</div>
+<div class="container" style="visibility: hidden;" id="upload">
+    <!-- Files -->
+    <h2>Files</h2>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">Your Files</div>
+            <div class="collapsible-body">
+                <h3>Files</h3>
+                <a class="btn waves-effect waves-light" type="button" id="refreshFiles">Refresh</a>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>File Hash</th>
+                        </tr>
+                    </thead>
 
-    </div>
-    <div>
-        <h3>Share Files</h3>
-        File Name : <input type="text" id="fileName"><br>
-        User Id : <input type="text" id="uid"><br>
-        File Hash : <input type="text" id="fileHash"><br>
-        <input type="button" value="Share" id="share">
-    </div>
-    <h3>Connect:</h3>
-    <input type="text" id="addr">
-    <input type="button" value="Connect" id="conn">
-    <span id="connRes"></span>
-    <h3>Ping:</h3>
-    <input type="text" id="getId">
-    <input type="button" value="Ping" id="ping">
-    <span id="pingRes"></span>
-    <h3>Upload file</h3>
-    <input id="fileItem" type="file"><br>
-    <input type="button" value="Upload" id="upload_file">
-    <span id="hash"></span>
-    <h3>Get File</h3>
-    <input type="text" id="getHash">
-    <input type="button" value="Download" id="download_file">
+                    <tbody id="userFiles">
 
+                    </tbody>
+                </table>
+            </div>
+        </li>
+        <li>
+            <!-- Share Files-->
+            <div class="collapsible-header">Share Files</div>
+            <div class="collapsible-body">
+                <div>
+                    <h3>Share Files</h3>
+                    File Name : <input type="text" id="fileName"><br>
+                    User Id : <input type="text" id="uid"><br>
+                    File Hash : <input type="text" id="fileHash"><br>
+                    <a class="btn waves-effect waves-light" type="button" id="share">Share</a>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Upload Files</div>
+            <div class="collapsible-body">
+                <h3>Upload file</h3>
+                <input id="fileItem" type="file"><br><br>
+                <a class="btn waves-effect waves-light" id="upload_file">Upload</a>
+                <span id="hash"></span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Get Files</div>
+            <div class="collapsible-body">
+                <h3>Get File</h3>
+                <input type="text" id="getHash">
+                <a class="btn waves-effect waves-light" id="download_file">Download</a>
 
-    <div>
-        <h3>Address</h3>
-        <input type="button" value="Refresh" id="peer_list">
-        <div id="addrs">
+            </div>
+        </li>
+        <!-- <li> -->
+                <!-- <script src="buffer.js"></script>
+                <script src="ipfs_api.js"></script> -->
+                <!-- <div class="collapsible-header">Sare Files Online</div>
+                <div class="collapsible-body"> -->
+            <!-- <script type="text/javascript">
+                function upload() {
+                  const reader = new FileReader();
+                  reader.onloadend = function() {
+                    const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
+                    const buf = buffer.Buffer(reader.result) // Convert data into buffer
+                    ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+                      if(err) {
+                        console.error(err)
+                        return
+                      }
+                      let url = `https://ipfs.io/ipfs/${result[0].hash}`
+                      console.log(`Url --> <!-- ${url}`)
+                      document.getElementById("url").innerHTML= url
+                      document.getElementById("url").href= url
+                      document.getElementById("output").src = url
+                    })
+                  }
+                  const photo = document.getElementById("photo");
+                  reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
+                }
+              </script> -->
+              <!-- <div>
+                <form action="/">
+                  <fieldset>
+                    <legend>Upload photo</legend>
+                    <input type="file" name="photo" id="photo">
+                    <button type="button" onclick="upload()">Upload</button>
+                  </fieldset>
+                </form>
+                </br>
+                </br>
+                <a id="url"></a>
+                </br>
+                </br>
+                <img id="output">
+            </div>
+              </div>
+        </li> -->
+    </ul>
 
-        </div>
-    </div>
+    <h2>Settings</h2>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">Connect to specific node</div>
+            <div class="collapsible-body">
+                <h3>Connect:</h3>
+                <input type="text" id="addr">
+                <a class="btn waves-effect waves-light" type="button" id="conn">Connect</a>
+                <span id="connRes"></span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Ping Other Nodes</div>
+            <div class="collapsible-body">
+                <h3>Ping:</h3>
+                <input type="text" id="getId">
+                <a class="btn waves-effect waves-light" type="button" id="ping">Ping</a>
+                <span id="pingRes"></span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Address</div>
+            <div class="collapsible-body">
+                <div>
+                    <h3>Address</h3>
+                    <a class="btn waves-effect waves-light" id="peer_list">Refresh</a>
+                    <div id="addrs">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a style="width: 100%;" class="btn waves-effect waves-light" id="logout">Logout</a>
+        </li>
+    </ul>
+
 </div>
 
 <script src="jquery.min.js"></script>
 <script src="/ipfs_browser/index.min.js"></script>
-<script src="/ipfs_browser/index_dis.min.js"></script>
 <script src="index_build.js"></script>
 <script src="fileSaver.min.js"></script>
 

@@ -6,17 +6,27 @@ const uuidv4 = require('uuid/v4');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.sendFile(`login_page.html`, {root : `${__dirname + '/../views/'}`});
+  res.sendFile(`login_page.html`, { root: `${__dirname + '/../views/'}` });
 });
 
 router.get('/ipfs', async function (req, res, next) {
   let result = await dbInt.checkSessionId(req.query.sessionId);
   if (result === true) {
-    await dbInt.deleteSessionId(req.query.sessionId);
-    res.sendFile(`ipfs_test.html`, {root : `${__dirname + '/../views/'}`});
+    res.sendFile(`ipfs_test.html`, { root: `${__dirname + '/../views/'}` });
   } else {
     res.send({ err: "Session Id not found !" });
   }
+});
+
+router.get('/logout', async function (req, res, next) {
+  let message = { err: null, details: "Logout Successfull" }
+  try {
+    await dbInt.deleteSessionId(req.query.sessionId);
+  } catch (err) {
+    message.err = 'Problem with Database';
+    message.details = "Error deleting session";
+  }
+  res.send(message);
 });
 
 
@@ -26,12 +36,14 @@ router.post('/ipfs/files/get', async function (req, res, next) {
 });
 
 router.post('/ipfs/files/add', async function (req, res, next) {
+  let response = { err: null };
   try {
-    await dbInt.addFile(req.body.userId, {info: req.body.fileName, hash: req.body.fileHash});
-  } catch(err) {
+    await dbInt.addFile(req.body.userId, { info: req.body.fileName, hash: req.body.fileHash });
+  } catch (err) {
     console.log(err);
-    res.send({err: 'ERROR_ADDING_FILES'});
+    response = { err: 'ERROR_ADDING_FILES' };
   }
+  res.send(response);
 });
 
 

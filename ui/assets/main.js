@@ -2,13 +2,17 @@
 
 const node = new window.Ipfs()
 var Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
-
+var mat = require('./materialize/js/materialize');
 
 $(document).ready(function () {
+    $('.collapsible').collapsible();
     node.on('ready', () => {
         // Ready to use!
         // See https://github.com/ipfs/js-ipfs#core-api
         $('#output').text('IPFS Intialized');
+        //$('#output').css("visibility", "hidden");
+        $('#head').css("margin-top", "1%");
+        $('#head').css("transform", "translate(0, -20%)");
         $('#upload').css("visibility", "visible");
         node.id((err, id) => {
             if (err) {
@@ -121,7 +125,7 @@ function refreshFiles() {
         console.log(data);
         $('#userFiles').empty();
         for (var i = 0; i < data.length; i++) {
-            $('#userFiles').append(`File Name: ${data[i].fileInfo}, File Hash : ${data[i].fileId}<br>`);
+            $('#userFiles').append(`<tr> <td>${data[i].fileInfo}</td> <td>${data[i].fileId}</td></tr>`);
         }
     });
 }
@@ -140,12 +144,29 @@ function shareFiles() {
         }
     });
 }
+var sessionId = GetURLParameter('sessionId');
+function logout() {
+    node.stop(error => {
+        if (error) {
+            return console.error('Node failed to stop cleanly!', error)
+        } else {
+            $.get(`/logout?sessionId=${sessionId}`, function (data, status) {
 
-
+                console.log('Node stopped!')
+                if (data.err) { console.log('Err Did not logout'); }
+                else {
+                    console.log('Logged Out');
+                    window.location = '/';
+                }
+            });
+        }
+    });
+}
 $('#share').click(shareFiles);
 $('#peer_list').click(refreshPeers);
 $('#upload_file').click(fileUpload);
 $('#download_file').click(fileDownload);
 $('#ping').click(pingId);
 $('#conn').click(connectToPeer);
+$('#logout').click(logout)
 $('#refreshFiles').click(refreshFiles);

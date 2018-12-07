@@ -55,6 +55,7 @@ exports.checkSessionId = function (sessionId) {
                 console.log(err);
                 resolve(false);
             }
+            //console.log("session :", result);
             if (result.length === 0) {
                 resolve(false);
             } else {
